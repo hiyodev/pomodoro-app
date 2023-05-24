@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import { styled } from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCog } from "@fortawesome/free-solid-svg-icons";
+import { faCog, faEdit } from "@fortawesome/free-solid-svg-icons";
 
 import Timer from "./Timer";
+import TaskList from "./TaskList";
 
 const StyledCard = styled.div`
   background-color: #fff;
@@ -25,6 +26,10 @@ const StyledButton = styled.button`
   border-radius: 5px;
   cursor: pointer;
   font-size: 16px;
+
+  &:hover {
+    background-color: #555;
+  }
 `;
 
 const StyledStartStopButton = styled(StyledButton)`
@@ -33,10 +38,15 @@ const StyledStartStopButton = styled(StyledButton)`
 
 const StyledIconButton = styled(StyledButton)`
   background-color: #555;
+
+  &:hover {
+    background-color: #777;
+  }
 `;
 
 function Card(props) {
   // Card handles starting and stopping of timers of different modes ( Pomodoro, Break, Long Break )
+
   const [startTimer, setStartTimer] = useState(false);
   const [resetTimer, setResetTimer] = useState(0);
 
@@ -61,6 +71,11 @@ function Card(props) {
           <FontAwesomeIcon icon={faCog}></FontAwesomeIcon>
         </StyledIconButton>
       </ButtonWrapper>
+      <h3>List of Tasks</h3>
+      <TaskList></TaskList>
+      <StyledIconButton>
+        Add <FontAwesomeIcon icon={faEdit}></FontAwesomeIcon>
+      </StyledIconButton>
     </StyledCard>
   );
 }
