@@ -11,7 +11,7 @@ const StyledCard = styled.div`
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   padding: 20px;
   border-radius: 10px;
-  max-width: 600px; /* Updated width */
+  max-width: 335px; /* Updated width */
   margin: 0 auto;
 `;
 
