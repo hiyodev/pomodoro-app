@@ -1,8 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 
 import { styled } from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEdit, faCheck, faEllipsis } from "@fortawesome/free-solid-svg-icons";
+import { faCheck, faEllipsis } from "@fortawesome/free-solid-svg-icons";
 
 const StyledTask = styled.div`
   display: flex;
@@ -14,6 +14,8 @@ const TaskLeftWrapper = styled.div`
   display: grid;
   align-items: center;
   padding: 0.5em;
+  border-left: 2px solid
+    ${(props) => (props.selected ? "black" : props.hovered ? "#ccc" : "white")};
 `;
 
 const TaskContentWrapper = styled.div`
@@ -22,24 +24,22 @@ const TaskContentWrapper = styled.div`
 
 const TaskTitle = styled.div`
   font-weight: bold;
+  text-decoration: ${(props) => (props.completed ? "line-through" : "none")};
 `;
 
 const TaskDescription = styled.div`
-  max-width: 300px; /* Updated width */
+  max-width: 300px;
   color: #777;
   margin-top: 5px;
   text-align: left;
+
+  text-decoration: ${(props) => (props.completed ? "line-through" : "none")};
 `;
 
 const TaskHeader = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-`;
-
-const ButtonsContainer = styled.div`
-  display: flex;
-  align-items: center;
 `;
 
 const StyledIconButton = styled.button`
@@ -50,7 +50,7 @@ const StyledIconButton = styled.button`
 `;
 
 const StyledFontAwesomeIcon = styled(FontAwesomeIcon)`
-  color: #bfbfbf;
+  color: ${(props) => (props.completed ? "black" : "#bfbfbf")};
   cursor: pointer;
 
   &:hover {
@@ -59,21 +59,64 @@ const StyledFontAwesomeIcon = styled(FontAwesomeIcon)`
 `;
 
 function Task(props) {
-  const { title, description } = props;
+  const { id, title, description, selected, completed } = props.task;
+  const { setTasks } = props;
+
+  const [taskHovered, setTaskHovered] = useState(false);
+
+  const onTickHandler = () => {
+    setTasks((currTasks) => {
+      return currTasks.map((task) => {
+        if (task.id === id) {
+          return { ...task, completed: !task.completed };
+        }
+
+        return task;
+      });
+    });
+  };
+
+  const onSelectHandler = () => {
+    setTasks((currTasks) => {
+      return currTasks.map((task) => {
+        if (task.id === id) {
+          return { ...task, selected: true };
+        }
+
+        return { ...task, selected: false };
+      });
+    });
+  };
 
   return (
     <StyledTask>
-      <TaskLeftWrapper>
-        <StyledFontAwesomeIcon icon={faCheck}></StyledFontAwesomeIcon>
+      <TaskLeftWrapper
+        hovered={taskHovered ? 1 : 0}
+        selected={selected ? 1 : 0}
+        onClick={onSelectHandler}
+        onMouseOver={() => setTaskHovered(true)}
+        onMouseLeave={() => setTaskHovered(false)}
+      >
+        <StyledFontAwesomeIcon
+          icon={faCheck}
+          completed={completed ? 1 : 0}
+          onClick={onTickHandler}
+        ></StyledFontAwesomeIcon>
       </TaskLeftWrapper>
-      <TaskContentWrapper onClick={() => console.log("BOOM")}>
+      <TaskContentWrapper
+        onClick={onSelectHandler}
+        onMouseOver={() => setTaskHovered(true)}
+        onMouseLeave={() => setTaskHovered(false)}
+      >
         <TaskHeader>
-          <TaskTitle>{title}</TaskTitle>
+          <TaskTitle completed={completed ? 1 : 0}>{title}</TaskTitle>
           <StyledIconButton>
             <FontAwesomeIcon icon={faEllipsis}></FontAwesomeIcon>
           </StyledIconButton>
         </TaskHeader>
-        <TaskDescription>{description}</TaskDescription>
+        <TaskDescription completed={completed ? 1 : 0}>
+          {description}
+        </TaskDescription>
       </TaskContentWrapper>
     </StyledTask>
   );

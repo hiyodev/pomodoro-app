@@ -10,7 +10,7 @@ const TaskListContainer = styled.div`
 `;
 
 function TaskList(props) {
-  const [Tasks, setTasks] = useState([
+  const [tasks, setTasks] = useState([
     {
       id: 1,
       title: "Task A",
@@ -35,14 +35,11 @@ function TaskList(props) {
       completed: false,
     },
   ]);
+
   return (
     <TaskListContainer>
-      {Tasks.map((task) => (
-        <Task
-          key={task.id}
-          title={task.title}
-          description={task.description}
-        ></Task>
+      {tasks.map((task) => (
+        <Task key={task.id} task={task} setTasks={setTasks}></Task>
       ))}
     </TaskListContainer>
   );
