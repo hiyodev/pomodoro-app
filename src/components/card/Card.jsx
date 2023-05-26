@@ -1,6 +1,12 @@
 import React, { useState, useContext } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCog, faEdit } from "@fortawesome/free-solid-svg-icons";
+import {
+  faCog,
+  faEdit,
+  faEraser,
+  faSave,
+  faTimes,
+} from "@fortawesome/free-solid-svg-icons";
 
 import Timer from "../timer/Timer";
 import TaskList from "../taskList/TaskList";
@@ -18,8 +24,29 @@ function Card(props) {
   const [breakDuration, setBreakDuration] = useState(300);
 
   const [addMode, setAddMode] = useState(false);
-  const [userInput, setUserInput] = useState({});
-  const tasksState = useContext(TaskContext);
+  const [userInput, setUserInput] = useState({ title: "", description: "" });
+  const taskData = useContext(TaskContext);
+
+  const onCancelHandler = () => {
+    setUserInput({ title: "", description: "" });
+    setAddMode(false);
+  };
+
+  const onClearHandler = () => {
+    setUserInput({ title: "", description: "" });
+  };
+
+  const onSaveHandler = () => {
+    taskData.setTasks((currTasks) => {
+      if (currTasks.length === 0) {
+        return [{ id: 0, ...userInput }];
+      }
+
+      const id = currTasks[currTasks.length - 1].id + 1;
+      return [...currTasks, { id: id, ...userInput }];
+    });
+    setUserInput({ title: "", description: "" });
+  };
 
   return (
     <S.CardContainer>
@@ -38,13 +65,55 @@ function Card(props) {
         </S.IconButton>
       </S.ButtonWrapper>
       <h3>List of Tasks</h3>
-      <TaskList></TaskList>
+      <TaskList />
       {!addMode && (
         <S.IconButton onClick={() => setAddMode(true)}>
           Add <FontAwesomeIcon icon={faEdit}></FontAwesomeIcon>
         </S.IconButton>
       )}
-      {addMode && <>"Hi"</>}
+      {addMode && (
+        <>
+          <S.EditBorder />
+          <S.EditWrapper>
+            <S.EditTitle
+              value={userInput.title}
+              placeholder={"Name of task..."}
+              onChange={(e) =>
+                setUserInput((input) => ({
+                  ...input,
+                  title: e.target.value,
+                }))
+              }
+            ></S.EditTitle>
+            <S.EditDescription
+              value={userInput.description}
+              placeholder={"Additional information..."}
+              onChange={(e) =>
+                setUserInput((input) => ({
+                  ...input,
+                  description: e.target.value,
+                }))
+              }
+            ></S.EditDescription>
+            <S.ThreeButtonWrapper>
+              <S.IconButton onClick={onClearHandler}>
+                <S.AwesomeIcon icon={faEraser}></S.AwesomeIcon>
+              </S.IconButton>
+              <S.TwoButtonWrapper>
+                <S.IconButton right_margin={"0.25em"} onClick={onCancelHandler}>
+                  <S.AwesomeIcon icon={faTimes}></S.AwesomeIcon>
+                </S.IconButton>
+                <S.IconButton
+                  onClick={onSaveHandler}
+                  disabled={!userInput.title.length}
+                >
+                  <S.AwesomeIcon icon={faSave}></S.AwesomeIcon>
+                </S.IconButton>
+              </S.TwoButtonWrapper>
+            </S.ThreeButtonWrapper>
+          </S.EditWrapper>
+        </>
+      )}
     </S.CardContainer>
   );
 }

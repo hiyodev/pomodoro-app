@@ -54,9 +54,7 @@ export const ButtonWrapper = styled.div`
   margin-top: 0.5em;
 `;
 
-export const TwoButtonWrapper = styled.div`
-  display: flex;
-`;
+export const TwoButtonWrapper = styled.div``;
 
 export const TickIconButton = styled(FontAwesomeIcon)`
   color: ${(props) => (props.completed ? "black" : "#bfbfbf")};
@@ -71,6 +69,7 @@ export const AwesomeIcon = styled(FontAwesomeIcon)``;
 
 export const EditWrapper = styled.div`
   display: flex;
+  flex: 1;
   flex-direction: column;
   margin-left: 2em;
 `;

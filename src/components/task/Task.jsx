@@ -11,10 +11,10 @@ import { TaskContext } from "../../App";
 import * as S from "./Task.styled";
 
 function Task(props) {
-  const tasksState = useContext(TaskContext);
+  const taskData = useContext(TaskContext);
 
   const { id, title, description, selected, completed } = props.task;
-  const { setTasks } = tasksState;
+  const { setTasks } = taskData;
 
   const [taskHovered, setTaskHovered] = useState(false);
   const [editMode, setEditMode] = useState(false);
@@ -122,17 +122,15 @@ function Task(props) {
 
       {editMode && (
         <S.EditWrapper>
-          <S.Header>
-            <S.EditTitle
-              value={userInput.title}
-              onChange={(e) =>
-                setUserInput((input) => ({
-                  ...input,
-                  title: e.target.value,
-                }))
-              }
-            ></S.EditTitle>
-          </S.Header>
+          <S.EditTitle
+            value={userInput.title}
+            onChange={(e) =>
+              setUserInput((input) => ({
+                ...input,
+                title: e.target.value,
+              }))
+            }
+          ></S.EditTitle>
           <S.EditDescription
             value={userInput.description}
             onChange={(e) =>
@@ -141,8 +139,6 @@ function Task(props) {
                 description: e.target.value,
               }))
             }
-            cols={35}
-            rows={3}
           ></S.EditDescription>
           <S.ButtonWrapper>
             <S.IconButton onClick={onDeleteHandler}>

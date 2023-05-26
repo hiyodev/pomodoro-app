@@ -10,11 +10,11 @@ const TaskListContainer = styled.div`
 `;
 
 function TaskList(props) {
-  const tasksState = useContext(TaskContext);
+  const taskData = useContext(TaskContext);
 
   return (
     <TaskListContainer>
-      {tasksState.tasks.map((task) => (
+      {taskData.tasks.map((task) => (
         <Task key={task.id} task={task}></Task>
       ))}
     </TaskListContainer>
