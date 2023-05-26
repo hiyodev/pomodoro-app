@@ -1,20 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-import { styled } from "styled-components";
-
-const TimerContainer = styled.div`
-  margin-bottom: 20px;
-`;
-
-const TimerDisplay = styled.div`
-  font-size: 60px;
-  margin-bottom: 10px;
-`;
-
-const TimerStatus = styled.div`
-  font-size: 20px;
-  color: #666;
-`;
+import * as S from "./Timer.styled";
 
 function Timer(props) {
   const { startTimer, timeDuration, resetTimer } = props;
@@ -40,15 +26,15 @@ function Timer(props) {
   const inMinutes = (timer % 60).toString();
 
   return (
-    <TimerContainer>
+    <S.TimerContainer>
       <h2>Pomodoro Timer</h2>
-      <TimerDisplay>
+      <S.TimerDisplay>
         {`${Math.floor(timer / 60)}:${
           inMinutes.length === 1 ? "0" + inMinutes : inMinutes
         }`}
-      </TimerDisplay>
-      <TimerStatus>Work</TimerStatus>
-    </TimerContainer>
+      </S.TimerDisplay>
+      <S.TimerStatus>Work</S.TimerStatus>
+    </S.TimerContainer>
   );
 }
 
