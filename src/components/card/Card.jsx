@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faCog,
@@ -20,8 +20,17 @@ function Card(props) {
   const [startTimer, setStartTimer] = useState(false);
   const [resetTimer, setResetTimer] = useState(0);
 
-  const [pomoDuration, setPomoDuration] = useState(1500);
-  const [breakDuration, setBreakDuration] = useState(300);
+  const [pomoDuration, setPomoDuration] = useState(
+    JSON.parse(localStorage.getItem("pomoTime") || 1500)
+  );
+  const [breakDuration, setBreakDuration] = useState(
+    JSON.parse(localStorage.getItem("breakTime") || 300)
+  );
+
+  useEffect(() => {
+    localStorage.setItem("pomoTime", JSON.stringify(pomoDuration));
+    localStorage.setItem("breakTime", JSON.stringify(breakDuration));
+  }, [pomoDuration, breakDuration]);
 
   const [addMode, setAddMode] = useState(false);
   const [userInput, setUserInput] = useState({ title: "", description: "" });
