@@ -27,7 +27,7 @@ const ModalContent = styled.div`
     "TimerTitle TimerTitle TimerTitle"
     ". . ."
     ". . ."
-    "ThemeTitle ThemeTitle ThemeTitle";
+    "ThemeTitle ThemeTitle .";
 
   justify-items: center;
 `;
