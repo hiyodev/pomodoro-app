@@ -15,7 +15,6 @@ export const ButtonWrapper = styled.div``;
 export const Button = styled.button`
   background-color: #333;
   color: #fff;
-  border: none;
   padding: 8px 16px;
   margin-right: 10px;
   border-radius: 5px;

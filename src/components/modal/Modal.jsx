@@ -13,31 +13,80 @@ const ModalBackground = styled.div`
 `;
 
 const ModalContainer = styled.div`
-  display: flex;
-  flex-direction: column;
   border-radius: 0.5rem;
   background-color: rgba(255, 255, 255, 1);
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
   width: 20rem;
-  height: 25rem;
+  height: 20rem;
 `;
 
-const EditContainer = styled.div`
-  display: flex;
-  justify-content: center;
+const ModalContent = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-areas:
+    "TimerTitle TimerTitle TimerTitle"
+    ". . ."
+    ". . ."
+    "ThemeTitle ThemeTitle ThemeTitle";
+
+  justify-items: center;
 `;
 
 const TimerField = styled.input`
   width: 4rem;
-  margin: 0 0.5em 0 0.5rem;
   font-size: 1.5rem;
+  border-bottom: 1px solid black;
+`;
+
+const FieldLabel = styled.label`
+  color: #777;
+`;
+
+const Title = styled.div`
+  justify-self: start;
+  padding-left: 1em;
+  padding-bottom: 0.2em;
+  font-weight: bold;
+`;
+
+const SettingsTitle = styled(Title)`
+  grid-area: TimerTitle;
+`;
+
+const ThemeTitle = styled(Title)`
+  grid-area: ThemeTitle;
+  padding-top: 1em;
+`;
+
+const ButtonContainer = styled.div`
+  margin-top: 5rem;
+`;
+
+const Button = styled.button`
+  background-color: #333;
+  color: #fff;
+  padding: 8px 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+
+  &:hover {
+    background-color: #555;
+  }
+`;
+
+const SaveButton = styled(Button)``;
+
+const ResetButton = styled(Button)`
+  margin-right: 0.5em;
 `;
 
 function Modal(props) {
-  const { openSettingsModal, timers } = props;
+  const { openSettingsModal, timers, setTimers } = props;
   const { pomoDuration, breakDuration, longBreakDuration } = timers;
+  const { setPomoDuration, setBreakDuration, setLongBreakDuration } = setTimers;
 
-  const [useInput, setUserInput] = useState({
+  const [userInput, setUserInput] = useState({
     pomoDuration: pomoDuration,
     breakDuration: breakDuration,
     longBreakDuration: longBreakDuration,
@@ -49,29 +98,45 @@ function Modal(props) {
     });
   };
 
+  const onSaveHandler = () => {
+    if (Object.values(userInput).some((timer) => timer === 0)) return;
+
+    setPomoDuration(userInput.pomoDuration);
+    setBreakDuration(userInput.breakDuration);
+    setLongBreakDuration(userInput.longBreakDuration);
+    openSettingsModal(false);
+  };
+
   return (
     <ModalBackground onClick={() => openSettingsModal(false)}>
       <ModalContainer onClick={(e) => e.stopPropagation()}>
         <h2>Settings</h2>
-        <EditContainer>
-          <p>Test</p>
-          <p>Test</p>
-          <p>Test</p>
-        </EditContainer>
-        <EditContainer>
+        <ModalContent>
+          <SettingsTitle>Time Duration (Minutes):</SettingsTitle>
+          <FieldLabel>Pomodoro</FieldLabel>
+          <FieldLabel>Short Break</FieldLabel>
+          <FieldLabel>Long Break</FieldLabel>
           <TimerField
-            value={useInput.pomoDuration / 60}
+            type="number"
+            value={userInput.pomoDuration / 60}
             onChange={(e) => onChangeHandler(e, "pomoDuration")}
           ></TimerField>
           <TimerField
-            value={useInput.breakDuration / 60}
+            type="number"
+            value={userInput.breakDuration / 60}
             onChange={(e) => onChangeHandler(e, "breakDuration")}
           ></TimerField>
           <TimerField
-            value={useInput.longBreakDuration / 60}
+            type="number"
+            value={userInput.longBreakDuration / 60}
             onChange={(e) => onChangeHandler(e, "longBreakDuration")}
           ></TimerField>
-        </EditContainer>
+          <ThemeTitle>Toggle Website Theme:</ThemeTitle>
+        </ModalContent>
+        <ButtonContainer>
+          <ResetButton>Reset</ResetButton>
+          <SaveButton onClick={onSaveHandler}>Save</SaveButton>
+        </ButtonContainer>
       </ModalContainer>
     </ModalBackground>
   );

@@ -28,7 +28,7 @@ function Card(props) {
     JSON.parse(localStorage.getItem("breakTime") || 300)
   );
   const [longBreakDuration, setLongBreakDuration] = useState(
-    JSON.parse(localStorage.getItem("longBreakTime") || 1200)
+    JSON.parse(localStorage.getItem("longBreakTime") || 900)
   );
 
   const [settingsModal, openSettingsModal] = useState(false);
@@ -73,6 +73,11 @@ function Card(props) {
             pomoDuration: pomoDuration,
             breakDuration: breakDuration,
             longBreakDuration: longBreakDuration,
+          }}
+          setTimers={{
+            setPomoDuration: setPomoDuration,
+            setBreakDuration: setBreakDuration,
+            setLongBreakDuration: setLongBreakDuration,
           }}
         ></Modal>
       )}

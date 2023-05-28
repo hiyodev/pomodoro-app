@@ -23,6 +23,10 @@ function Timer(props) {
     setTimer(timeDuration);
   }, [resetTimer]);
 
+  useEffect(() => {
+    setTimer(timeDuration);
+  }, [timeDuration]);
+
   const inMinutes = (timer % 60).toString();
 
   return (
