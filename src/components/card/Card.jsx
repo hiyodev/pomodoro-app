@@ -14,6 +14,7 @@ import { TaskContext } from "../../App";
 
 // Styled components
 import * as S from "./Card.styled";
+import Modal from "../modal/Modal";
 
 function Card(props) {
   // Card handles starting and stopping of timers of different modes ( Pomodoro, Break, Long Break )
@@ -26,11 +27,17 @@ function Card(props) {
   const [breakDuration, setBreakDuration] = useState(
     JSON.parse(localStorage.getItem("breakTime") || 300)
   );
+  const [longBreakDuration, setLongBreakDuration] = useState(
+    JSON.parse(localStorage.getItem("longBreakTime") || 1200)
+  );
+
+  const [settingsModal, openSettingsModal] = useState(false);
 
   useEffect(() => {
     localStorage.setItem("pomoTime", JSON.stringify(pomoDuration));
     localStorage.setItem("breakTime", JSON.stringify(breakDuration));
-  }, [pomoDuration, breakDuration]);
+    localStorage.setItem("longBreakTime", JSON.stringify(longBreakDuration));
+  }, [pomoDuration, breakDuration, longBreakDuration]);
 
   const [addMode, setAddMode] = useState(false);
   const [userInput, setUserInput] = useState({ title: "", description: "" });
@@ -58,72 +65,89 @@ function Card(props) {
   };
 
   return (
-    <S.CardContainer>
-      <Timer
-        startTimer={startTimer}
-        timeDuration={pomoDuration}
-        resetTimer={resetTimer}
-      ></Timer>
-      <S.ButtonWrapper>
-        <S.StartStopButton onClick={() => setStartTimer(!startTimer)}>
-          {startTimer ? "Stop" : "Start"}
-        </S.StartStopButton>
-        <S.Button onClick={() => setResetTimer(resetTimer + 1)}>Reset</S.Button>
-        <S.IconButton>
-          <FontAwesomeIcon icon={faCog}></FontAwesomeIcon>
-        </S.IconButton>
-      </S.ButtonWrapper>
-      <h3>List of Tasks</h3>
-      <TaskList />
-      {!addMode && (
-        <S.IconButton onClick={() => setAddMode(true)}>
-          Add <FontAwesomeIcon icon={faEdit}></FontAwesomeIcon>
-        </S.IconButton>
+    <>
+      {settingsModal && (
+        <Modal
+          openSettingsModal={openSettingsModal}
+          timers={{
+            pomoDuration: pomoDuration,
+            breakDuration: breakDuration,
+            longBreakDuration: longBreakDuration,
+          }}
+        ></Modal>
       )}
-      {addMode && (
-        <>
-          <S.EditBorder />
-          <S.EditWrapper>
-            <S.EditTitle
-              value={userInput.title}
-              placeholder={"Name of task..."}
-              onChange={(e) =>
-                setUserInput((input) => ({
-                  ...input,
-                  title: e.target.value,
-                }))
-              }
-            ></S.EditTitle>
-            <S.EditDescription
-              value={userInput.description}
-              placeholder={"Additional information..."}
-              onChange={(e) =>
-                setUserInput((input) => ({
-                  ...input,
-                  description: e.target.value,
-                }))
-              }
-            ></S.EditDescription>
-            <S.ThreeButtonWrapper>
-              <S.IconButton onClick={onClearHandler}>
-                <S.AwesomeIcon icon={faEraser}></S.AwesomeIcon>
-              </S.IconButton>
-              <S.TwoButtonWrapper>
-                <S.IconButton right_margin={"0.25em"} onClick={onCancelHandler}>
-                  <S.AwesomeIcon icon={faTimes}></S.AwesomeIcon>
+      <S.CardContainer>
+        <Timer
+          startTimer={startTimer}
+          timeDuration={pomoDuration}
+          resetTimer={resetTimer}
+        ></Timer>
+        <S.ButtonWrapper>
+          <S.StartStopButton onClick={() => setStartTimer(!startTimer)}>
+            {startTimer ? "Stop" : "Start"}
+          </S.StartStopButton>
+          <S.Button onClick={() => setResetTimer(resetTimer + 1)}>
+            Reset
+          </S.Button>
+          <S.IconButton onClick={() => openSettingsModal(true)}>
+            <FontAwesomeIcon icon={faCog}></FontAwesomeIcon>
+          </S.IconButton>
+        </S.ButtonWrapper>
+        <h3>List of Tasks</h3>
+        <TaskList />
+        {!addMode && (
+          <S.IconButton onClick={() => setAddMode(true)}>
+            Add <FontAwesomeIcon icon={faEdit}></FontAwesomeIcon>
+          </S.IconButton>
+        )}
+        {addMode && (
+          <>
+            <S.EditBorder />
+            <S.EditWrapper>
+              <S.EditTitle
+                value={userInput.title}
+                placeholder={"Name of task..."}
+                onChange={(e) =>
+                  setUserInput((input) => ({
+                    ...input,
+                    title: e.target.value,
+                  }))
+                }
+              ></S.EditTitle>
+              <S.EditDescription
+                value={userInput.description}
+                placeholder={"Additional information..."}
+                onChange={(e) =>
+                  setUserInput((input) => ({
+                    ...input,
+                    description: e.target.value,
+                  }))
+                }
+              ></S.EditDescription>
+              <S.ThreeButtonWrapper>
+                <S.IconButton onClick={onClearHandler}>
+                  <S.AwesomeIcon icon={faEraser}></S.AwesomeIcon>
                 </S.IconButton>
-                <S.IconButton
-                  onClick={onSaveHandler}
-                  disabled={!userInput.title.length}
-                >
-                  <S.AwesomeIcon icon={faSave}></S.AwesomeIcon>
-                </S.IconButton>
-              </S.TwoButtonWrapper>
-            </S.ThreeButtonWrapper>
-          </S.EditWrapper>
-        </>
-      )}
-    </S.CardContainer>
+                <S.TwoButtonWrapper>
+                  <S.IconButton
+                    right_margin={"0.25em"}
+                    onClick={onCancelHandler}
+                  >
+                    <S.AwesomeIcon icon={faTimes}></S.AwesomeIcon>
+                  </S.IconButton>
+                  <S.IconButton
+                    onClick={onSaveHandler}
+                    disabled={!userInput.title.length}
+                  >
+                    <S.AwesomeIcon icon={faSave}></S.AwesomeIcon>
+                  </S.IconButton>
+                </S.TwoButtonWrapper>
+              </S.ThreeButtonWrapper>
+            </S.EditWrapper>
+          </>
+        )}
+      </S.CardContainer>
+    </>
   );
 }
 
