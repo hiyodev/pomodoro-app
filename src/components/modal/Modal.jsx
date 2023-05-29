@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 
-import { styled } from "styled-components";
+import { styled, css } from "styled-components";
+import { TaskContext } from "../../App";
 
 const ModalBackground = styled.div`
   position: fixed;
@@ -17,7 +18,7 @@ const ModalContainer = styled.div`
   background-color: rgba(255, 255, 255, 1);
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
   width: 20rem;
-  height: 20rem;
+  height: 16rem;
 `;
 
 const ModalContent = styled.div`
@@ -59,7 +60,7 @@ const ThemeTitle = styled(Title)`
 `;
 
 const ButtonContainer = styled.div`
-  margin-top: 5rem;
+  padding-top: 1em;
 `;
 
 const Button = styled.button`
@@ -75,10 +76,59 @@ const Button = styled.button`
   }
 `;
 
-const SaveButton = styled(Button)``;
-
 const ResetButton = styled(Button)`
   margin-right: 0.5em;
+`;
+
+const SaveButton = styled(Button)``;
+
+const ThemeToggleLabel = styled.label`
+  align-self: end;
+  position: relative;
+  display: inline-block;
+  width: 50px;
+  height: 26px;
+`;
+
+const Slider = styled.span`
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  border-radius: 34px;
+  transition: 0.4s;
+  cursor: pointer;
+
+  ${(props) =>
+    props.checked &&
+    css`
+      background-color: #2196f3;
+    `}
+`;
+
+const SliderButton = styled.span`
+  position: absolute;
+  content: "";
+  height: 20px;
+  width: 20px;
+  left: 3px;
+  bottom: 3px;
+  background-color: #fff;
+  border-radius: 50%;
+  transition: 0.4s;
+  cursor: pointer;
+
+  ${(props) =>
+    props.checked &&
+    css`
+      transform: translateX(24px);
+    `}
+`;
+
+const ThemeToggleInput = styled.input`
+  display: none;
 `;
 
 function Modal(props) {
@@ -92,9 +142,19 @@ function Modal(props) {
     longBreakDuration: longBreakDuration,
   });
 
+  const themeData = useContext(TaskContext);
+
   const onChangeHandler = (e, propertyName) => {
     setUserInput((currInput) => {
       return { ...currInput, [propertyName]: e.target.value * 60 };
+    });
+  };
+
+  const onResetHandler = () => {
+    setUserInput({
+      pomoDuration: pomoDuration,
+      breakDuration: breakDuration,
+      longBreakDuration: longBreakDuration,
     });
   };
 
@@ -132,9 +192,18 @@ function Modal(props) {
             onChange={(e) => onChangeHandler(e, "longBreakDuration")}
           ></TimerField>
           <ThemeTitle>Toggle Website Theme:</ThemeTitle>
+          <ThemeToggleLabel>
+            <ThemeToggleInput
+              type="checkbox"
+              id="theme-switch"
+              onClick={() => themeData.setDarkMode(!themeData.darkMode)}
+            />
+            <Slider checked={themeData.darkMode} />
+            <SliderButton checked={themeData.darkMode} />
+          </ThemeToggleLabel>
         </ModalContent>
         <ButtonContainer>
-          <ResetButton>Reset</ResetButton>
+          <ResetButton onClick={onResetHandler}>Reset</ResetButton>
           <SaveButton onClick={onSaveHandler}>Save</SaveButton>
         </ButtonContainer>
       </ModalContainer>

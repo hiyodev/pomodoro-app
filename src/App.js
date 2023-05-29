@@ -10,15 +10,21 @@ function App() {
     JSON.parse(localStorage.getItem("tasks")) || []
   );
 
-  useEffect(() => {
-    console.log("Updating localstorage");
+  const [darkMode, setDarkMode] = useState(
+    JSON.parse(localStorage.getItem("web-theme")) || false
+  );
 
+  useEffect(() => {
     localStorage.setItem("tasks", JSON.stringify(tasks));
   }, [tasks]);
 
+  useEffect(() => {
+    localStorage.setItem("web-theme", JSON.stringify(darkMode));
+  }, [darkMode]);
+
   return (
     <div className="container">
-      <TaskContext.Provider value={{ tasks, setTasks }}>
+      <TaskContext.Provider value={{ tasks, setTasks, darkMode, setDarkMode }}>
         <Card></Card>
       </TaskContext.Provider>
     </div>
