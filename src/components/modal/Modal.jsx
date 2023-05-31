@@ -168,8 +168,12 @@ function Modal(props) {
   };
 
   return (
-    <ModalBackground onClick={() => openSettingsModal(false)}>
-      <ModalContainer onClick={(e) => e.stopPropagation()}>
+    <ModalBackground onMouseDown={() => openSettingsModal(false)}>
+      <ModalContainer
+        onMouseDown={(e) => e.stopPropagation()}
+        onMouseUp={(e) => e.stopPropagation()}
+        onClick={(e) => e.stopPropagation()}
+      >
         <h2>Settings</h2>
         <ModalContent>
           <SettingsTitle>Time Duration (Minutes):</SettingsTitle>
