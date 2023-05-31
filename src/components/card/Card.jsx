@@ -20,6 +20,7 @@ function Card(props) {
   // Card handles starting and stopping of timers of different modes ( Pomodoro, Break, Long Break )
   const [startTimer, setStartTimer] = useState(false);
   const [resetTimer, setResetTimer] = useState(0);
+  const [timerMode, setTimerMode] = useState("pomodoro");
 
   const [pomoDuration, setPomoDuration] = useState(
     JSON.parse(localStorage.getItem("pomoTime") || 1500)
@@ -82,10 +83,41 @@ function Card(props) {
         ></Modal>
       )}
       <S.CardContainer>
+        <S.CardTitle>Pomodoro Timer</S.CardTitle>
+        <S.TimerMode>
+          <S.TimerModeItem
+            alignment={"end"}
+            selected={timerMode === "pomodoro" ? 1 : 0}
+            onClick={() => setTimerMode("pomodoro")}
+          >
+            Focus
+          </S.TimerModeItem>
+          <S.TimerModeItem
+            alignment={"center"}
+            selected={timerMode === "break" ? 1 : 0}
+            onClick={() => setTimerMode("break")}
+          >
+            Break
+          </S.TimerModeItem>
+          <S.TimerModeItem
+            alignment={"start"}
+            selected={timerMode === "longbreak" ? 1 : 0}
+            onClick={() => setTimerMode("longbreak")}
+          >
+            Long Break
+          </S.TimerModeItem>
+        </S.TimerMode>
         <Timer
           startTimer={startTimer}
-          timeDuration={pomoDuration}
           resetTimer={resetTimer}
+          timerMode={timerMode}
+          timeDuration={
+            timerMode === "pomodoro"
+              ? pomoDuration
+              : timerMode === "break"
+              ? breakDuration
+              : longBreakDuration
+          }
         ></Timer>
         <S.ButtonWrapper>
           <S.StartStopButton onClick={() => setStartTimer(!startTimer)}>

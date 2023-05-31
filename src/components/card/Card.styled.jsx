@@ -10,6 +10,26 @@ export const CardContainer = styled.div`
   margin: 0 auto;
 `;
 
+export const TimerMode = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 0.75fr 1fr;
+  padding-bottom: 0.5em;
+`;
+
+export const TimerModeItem = styled.div`
+  padding: 0.5em 0 0em 0;
+  justify-self: ${(props) => props.alignment};
+  border-bottom: ${(props) => (props.selected ? "2px solid black" : "none")};
+  font-weight: ${(props) => (props.selected ? "bold" : "normal")};
+  cursor: ${(props) => (props.selected ? "normal" : "pointer")};
+`;
+
+export const CardTitle = styled.div`
+  font-size: 2rem;
+  font-weight: bold;
+  padding: 0.2em;
+`;
+
 export const ButtonWrapper = styled.div``;
 
 export const Button = styled.button`

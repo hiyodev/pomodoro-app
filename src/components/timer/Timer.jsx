@@ -21,17 +21,12 @@ function Timer(props) {
   useEffect(() => {
     console.log("Timer Reset");
     setTimer(timeDuration);
-  }, [resetTimer]);
-
-  useEffect(() => {
-    setTimer(timeDuration);
-  }, [timeDuration]);
+  }, [resetTimer, timeDuration]);
 
   const inMinutes = (timer % 60).toString();
 
   return (
     <S.TimerContainer>
-      <h2>Pomodoro Timer</h2>
       <S.TimerDisplay>
         {`${Math.floor(timer / 60)}:${
           inMinutes.length === 1 ? "0" + inMinutes : inMinutes
