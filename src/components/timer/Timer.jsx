@@ -1,11 +1,18 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 
 import * as S from "./Timer.styled";
+import { TaskContext } from "../../App";
 
 function Timer(props) {
-  const { startTimer, timeDuration, resetTimer } = props;
-
+  const { startTimer, resetTimer, timeDuration, timerMode } = props;
   const [timer, setTimer] = useState(timeDuration);
+  const taskData = useContext(TaskContext);
+
+  const selectedTask = taskData.tasks.filter((task) => {
+    return task.selected;
+  });
+
+  const taskTitle = selectedTask[0]?.title;
 
   useEffect(() => {
     console.log("Use effect Test");
@@ -32,7 +39,7 @@ function Timer(props) {
           inMinutes.length === 1 ? "0" + inMinutes : inMinutes
         }`}
       </S.TimerDisplay>
-      <S.TimerStatus>Work</S.TimerStatus>
+      <S.TimerStatus>{`Working on ${taskTitle}`}</S.TimerStatus>
     </S.TimerContainer>
   );
 }

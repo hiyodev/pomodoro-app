@@ -20,7 +20,10 @@ function Card(props) {
   // Card handles starting and stopping of timers of different modes ( Pomodoro, Break, Long Break )
   const [startTimer, setStartTimer] = useState(false);
   const [resetTimer, setResetTimer] = useState(0);
-  const [timerMode, setTimerMode] = useState("pomodoro");
+
+  const [timerMode, setTimerMode] = useState(
+    JSON.parse(localStorage.getItem("timerMode") || JSON.stringify("pomodoro"))
+  );
 
   const [pomoDuration, setPomoDuration] = useState(
     JSON.parse(localStorage.getItem("pomoTime") || 1500)
@@ -38,7 +41,8 @@ function Card(props) {
     localStorage.setItem("pomoTime", JSON.stringify(pomoDuration));
     localStorage.setItem("breakTime", JSON.stringify(breakDuration));
     localStorage.setItem("longBreakTime", JSON.stringify(longBreakDuration));
-  }, [pomoDuration, breakDuration, longBreakDuration]);
+    localStorage.setItem("timerMode", JSON.stringify(timerMode));
+  }, [pomoDuration, breakDuration, longBreakDuration, timerMode]);
 
   const [addMode, setAddMode] = useState(false);
   const [userInput, setUserInput] = useState({ title: "", description: "" });
