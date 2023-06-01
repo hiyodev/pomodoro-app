@@ -29,7 +29,6 @@ function Timer(props) {
     if (startTimer && timer > 0) {
       interval = setInterval(() => setTimer((oldTimer) => oldTimer - 1), 1000);
     } else if (startTimer && timer === 0) {
-      console.log(pomoCount);
       // Switch to break / long break after Pomodoro ends
       if (timerMode === "pomodoro") {
         if (pomoCount < 3) {

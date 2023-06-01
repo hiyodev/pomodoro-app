@@ -21,6 +21,7 @@ export const ContentWrapper = styled.div`
 `;
 
 export const Title = styled.div`
+  text-align: left;
   font-weight: bold;
   text-decoration: ${(props) => (props.completed ? "line-through" : "none")};
 `;
