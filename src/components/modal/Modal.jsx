@@ -152,9 +152,9 @@ function Modal(props) {
 
   const onResetHandler = () => {
     setUserInput({
-      pomoDuration: pomoDuration,
-      breakDuration: breakDuration,
-      longBreakDuration: longBreakDuration,
+      pomoDuration: 1500,
+      breakDuration: 300,
+      longBreakDuration: 900,
     });
   };
 
