@@ -19,6 +19,13 @@ const ModalContainer = styled.div`
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
   width: 20rem;
   height: 16rem;
+
+  ${(props) =>
+    props.theme.darkMode &&
+    css`
+      background-color: #2e2e2e;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    `}
 `;
 
 const ModalContent = styled.div`
@@ -41,6 +48,12 @@ const TimerField = styled.input`
 
 const FieldLabel = styled.label`
   color: #777;
+
+  ${(props) =>
+    props.theme.darkMode &&
+    css`
+      color: #c0c0c0;
+    `}
 `;
 
 const Title = styled.div`

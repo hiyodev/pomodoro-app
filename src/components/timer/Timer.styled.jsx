@@ -26,13 +26,25 @@ export const CircleContainer = styled.div`
 
 const GlowingAnimation = keyframes`
   0% {
-    box-shadow: 0 0 2px blue;
+    box-shadow: 0 0 2px black;
   }
   50% {
-    box-shadow: 0 0 10px blue;
+    box-shadow: 0 0 10px black;
   }
   100% {
-    box-shadow: 0 0 2px blue;
+    box-shadow: 0 0 2px black;
+  }
+`;
+
+const GlowingAnimationDark = keyframes`
+  0% {
+    box-shadow: 0 0 2px white;
+  }
+  50% {
+    box-shadow: 0 0 10px white;
+  }
+  100% {
+    box-shadow: 0 0 2px white;
   }
 `;
 
@@ -40,12 +52,19 @@ export const CircleItem = styled.div`
   width: 10px;
   height: 10px;
   border-radius: 50%;
-  background-color: ${(props) => (props.done ? "black" : "gray")};
+  background-color: ${(props) =>
+    props.done ? (props.theme.darkMode ? "white" : "black") : "grey"};
   margin: 0 0.5em 0.5em 0.5em;
-  ${(props) =>
-    props.active &&
-    !props.done &&
-    css`
-      animation: ${GlowingAnimation} 2s infinite;
-    `}
+
+  ${(props) => {
+    if (props.active && !props.done && !props.theme.darkMode) {
+      return css`
+        animation: ${GlowingAnimation} 2s infinite;
+      `;
+    } else if (props.active && !props.done && props.theme.darkMode) {
+      return css`
+        animation: ${GlowingAnimationDark} 2s infinite;
+      `;
+    }
+  }}
 `;
