@@ -1,5 +1,7 @@
+import { ThemeProvider } from "styled-components";
 import "./App.css";
 import Card from "./components/card/Card";
+import GlobalStyle from "./GlobalStyle";
 
 import { createContext, useState, useEffect } from "react";
 
@@ -25,7 +27,10 @@ function App() {
   return (
     <div className="container">
       <TaskContext.Provider value={{ tasks, setTasks, darkMode, setDarkMode }}>
-        <Card></Card>
+        <ThemeProvider theme={{ darkMode }}>
+          <GlobalStyle />
+          <Card></Card>
+        </ThemeProvider>
       </TaskContext.Provider>
     </div>
   );

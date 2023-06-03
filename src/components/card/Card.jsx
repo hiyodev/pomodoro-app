@@ -70,6 +70,8 @@ function Card(props) {
     setUserInput({ title: "", description: "" });
   };
 
+  console.log(taskData.darkMode);
+
   return (
     <>
       {settingsModal && (
@@ -180,10 +182,7 @@ function Card(props) {
                   >
                     <S.AwesomeIcon icon={faTimes}></S.AwesomeIcon>
                   </S.IconButton>
-                  <S.IconButton
-                    onClick={onSaveHandler}
-                    disabled={!userInput.title.length}
-                  >
+                  <S.IconButton onClick={onSaveHandler}>
                     <S.AwesomeIcon icon={faSave}></S.AwesomeIcon>
                   </S.IconButton>
                 </S.TwoButtonWrapper>

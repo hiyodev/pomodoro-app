@@ -11,6 +11,12 @@ export const TimerDisplay = styled.div`
 export const TimerStatus = styled.div`
   font-size: 20px;
   color: #666;
+
+  ${(props) =>
+    props.theme.darkMode &&
+    css`
+      color: #bebebe;
+    `}
 `;
 
 export const CircleContainer = styled.div`

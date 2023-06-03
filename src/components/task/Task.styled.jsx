@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export const Task = styled.div`
@@ -14,6 +14,14 @@ export const LeftWrapper = styled.div`
   padding: 0.5em;
   border-left: 2px solid
     ${(props) => (props.selected ? "black" : props.hovered ? "#ccc" : "white")};
+
+  ${(props) =>
+    props.theme.darkMode &&
+    css`
+      border-left: 2px solid
+        ${(props) =>
+          props.selected ? "white" : props.hovered ? "#5f5f5f" : "#2e2e2e"};
+    `}
 `;
 
 export const ContentWrapper = styled.div`
@@ -33,6 +41,12 @@ export const Description = styled.div`
   text-align: left;
 
   text-decoration: ${(props) => (props.completed ? "line-through" : "none")};
+
+  ${(props) =>
+    props.theme.darkMode &&
+    css`
+      color: #c0c0c0;
+    `}
 `;
 
 export const Header = styled.div`

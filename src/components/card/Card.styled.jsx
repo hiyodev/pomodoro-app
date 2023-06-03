@@ -1,13 +1,21 @@
-import { styled } from "styled-components";
+import { styled, css } from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export const CardContainer = styled.div`
   background-color: #fff;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.25);
   padding: 20px;
   border-radius: 10px;
   width: 21rem;
   margin: 0 auto;
+
+  ${(props) =>
+    props.theme.darkMode &&
+    css`
+      color: #fff;
+      background-color: #2e2e2e;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.25);
+    `}
 `;
 
 export const TimerMode = styled.div`
@@ -22,6 +30,13 @@ export const TimerModeItem = styled.div`
   border-bottom: ${(props) => (props.selected ? "2px solid black" : "none")};
   font-weight: ${(props) => (props.selected ? "bold" : "normal")};
   cursor: ${(props) => (props.selected ? "normal" : "pointer")};
+
+  ${(props) =>
+    props.theme.darkMode &&
+    props.selected &&
+    css`
+      border-bottom: 2px solid white;
+    `}
 `;
 
 export const CardTitle = styled.div`
