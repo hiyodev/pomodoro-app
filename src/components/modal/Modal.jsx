@@ -158,8 +158,11 @@ function Modal(props) {
   const themeData = useContext(TaskContext);
 
   const onChangeHandler = (e, propertyName) => {
+    if (e.target.value > 999) {
+      e.target.value = 999;
+    }
     setUserInput((currInput) => {
-      return { ...currInput, [propertyName]: e.target.value * 60 };
+      return { ...currInput, [propertyName]: Math.abs(e.target.value) * 60 };
     });
   };
 
