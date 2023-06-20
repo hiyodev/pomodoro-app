@@ -1,6 +1,6 @@
 # Pomodoro App ( 2 / 25 Apps )
 ### Live Preview
-- [https://hiyo-apexlegends.web.app/](https://hiyo-pomodoro.web.app/)
+- https://hiyo-pomodoro.web.app/
 - Hosted using Firebase. 
 
 # App Summary
